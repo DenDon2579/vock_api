@@ -1,17 +1,18 @@
 import Express from 'express';
 import bodyParser from 'body-parser';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import mongoose from 'mongoose';
+import { User } from './models/User';
+import dictionaryRouter from './routes/dictionary';
+import learningRouter from './routes/learning';
+
+mongoose.connect(
+  'mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock'
+);
 
 const app = Express();
 app.use(bodyParser.json());
-app.get('/users/:name', async (req, res) => {
-  const user = await prisma.user.create({
-    data: {
-      name: req.params.name,
-    },
-  });
-  res.status(502).send('GOOD');
-});
+
+app.use('/dictionary', dictionaryRouter);
+app.use('/learning', learningRouter);
 
 app.listen(3000);
