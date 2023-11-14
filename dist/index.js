@@ -13,4 +13,10 @@ var app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use('/dictionary', dictionary_1.default);
 app.use('/learning', learning_1.default);
-app.listen(3000);
+// Word.create([
+//   { englishWord: 'hello', translation: 'привет', progress: 100 },
+//   { englishWord: 'hello', translation: 'привет', progress: 60 },
+//   { englishWord: 'hello', translation: 'привет', progress: 45 },
+//   { englishWord: 'hello', translation: 'привет', progress: 82 },
+// ]);
+app.listen(3001);
