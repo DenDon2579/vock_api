@@ -40,7 +40,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
-var Word_1 = require("../models/Word");
 var axios_1 = __importDefault(require("axios"));
 var dictionaryRouter = (0, express_1.Router)();
 dictionaryRouter
@@ -48,18 +47,11 @@ dictionaryRouter
     res.send('dictionary root');
 })
     .get('/words', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var words;
     return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, Word_1.Word.find({})];
-            case 1:
-                words = _a.sent();
-                res.json(words);
-                return [2 /*return*/];
-        }
+        return [2 /*return*/];
     });
 }); })
-    .post('/words', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    .get('/translate', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var translations, responceTranslations;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -70,8 +62,8 @@ dictionaryRouter
                 translations = _a.sent();
                 if (translations.def.length > 0) {
                     responceTranslations = translations.def.map(function (block) { return ({
-                        type: block.pos,
-                        translations: block.tr
+                        pos: block.pos,
+                        words: block.tr
                             .map(function (translation) { return ({
                             text: translation.text,
                             popularity: translation.fr,

@@ -1,7 +1,13 @@
 import { Schema, model } from 'mongoose';
-const translationSchema = new Schema({
-  translation: { type: String, required: true },
-  type: { type: String, enum: ['noun', 'verb'], required: true },
+export default new Schema({
+  pos: { type: String, enum: ['noun', 'verb'], required: true },
+  words: {
+    type: [
+      {
+        popularity: { type: Number, required: true },
+        text: { type: String, required: true },
+      },
+    ],
+    required: true,
+  },
 });
-
-export const Translation = model('User', translationSchema);
