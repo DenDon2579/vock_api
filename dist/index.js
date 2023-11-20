@@ -45,32 +45,62 @@ var mongoose_1 = __importDefault(require("mongoose"));
 var User_1 = require("./models/User");
 var dictionary_1 = __importDefault(require("./routes/dictionary"));
 var learning_1 = __importDefault(require("./routes/learning"));
+var axios_1 = __importDefault(require("axios"));
+var validateToken_1 = __importDefault(require("./security/validateToken"));
+var cors_1 = __importDefault(require("cors"));
 mongoose_1.default.connect('mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock');
 var app = (0, express_1.default)();
-var isAuthenticated = function () { };
-app.all('*', function (req, res, next) {
-    if (isAuthenticated()) {
-        next();
-    }
-    else {
-        res.send(401);
-    }
-});
+var isAuthenticated = function () {
+    console.log('AUTHENTIFICATED !!! ALL IS OK URA URA URA GAY SEX Z ZOV ZOV');
+    return true;
+};
 app.use(body_parser_1.default.json());
-app.use('/dictionary', dictionary_1.default);
-app.use('/learning', learning_1.default);
-app.post('/auth', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var userData, isUserExist;
+app.use((0, cors_1.default)({ origin: true }));
+app.all('*', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var userData, uid;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                userData = req.body;
-                console.log(userData.sub);
-                return [4 /*yield*/, User_1.User.findOne({ uid: userData === null || userData === void 0 ? void 0 : userData.sub })];
+                if (!req.headers.authorization) return [3 /*break*/, 3];
+                return [4 /*yield*/, (0, validateToken_1.default)(req.headers.authorization)];
             case 1:
+                userData = _a.sent();
+                return [4 /*yield*/, userData.sub];
+            case 2:
+                uid = _a.sent();
+                req.uid = uid;
+                if (uid) {
+                    next();
+                }
+                else {
+                    res.sendStatus(401);
+                }
+                return [3 /*break*/, 4];
+            case 3:
+                res.sendStatus(401);
+                _a.label = 4;
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
+app.use('/dictionary', dictionary_1.default);
+app.use('/learning', learning_1.default);
+app.get('/auth', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var responce, userData, isUserExist;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                console.log(req.uid);
+                return [4 /*yield*/, axios_1.default.get('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: "Bearer ".concat(req.query.token) } })];
+            case 1:
+                responce = _a.sent();
+                return [4 /*yield*/, (0, validateToken_1.default)(req.query.token)];
+            case 2:
+                userData = _a.sent();
+                return [4 /*yield*/, User_1.User.findOne({ uid: userData === null || userData === void 0 ? void 0 : userData.sub })];
+            case 3:
                 isUserExist = _a.sent();
-                console.log(isUserExist);
-                if (!!isUserExist) return [3 /*break*/, 3];
+                if (!!isUserExist) return [3 /*break*/, 5];
                 return [4 /*yield*/, User_1.User.create({
                         uid: userData.sub,
                         userName: userData.name,
@@ -79,10 +109,12 @@ app.post('/auth', function (req, res) { return __awaiter(void 0, void 0, void 0,
                             words: [],
                         },
                     })];
-            case 2:
+            case 4:
                 _a.sent();
-                _a.label = 3;
-            case 3: return [2 /*return*/];
+                _a.label = 5;
+            case 5:
+                res.sendStatus(200);
+                return [2 /*return*/];
         }
     });
 }); });
