@@ -15,11 +15,6 @@ mongoose.connect(
 
 const app = Express();
 
-const isAuthenticated = () => {
-  console.log('success');
-  return true;
-};
-
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
 app.all('*', async (req: any, res, next) => {
