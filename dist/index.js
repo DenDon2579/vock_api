@@ -51,7 +51,7 @@ var cors_1 = __importDefault(require("cors"));
 mongoose_1.default.connect('mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock');
 var app = (0, express_1.default)();
 var isAuthenticated = function () {
-    console.log('AUTHENTIFICATED !!! ALL IS OK URA URA URA GAY SEX Z ZOV ZOV');
+    console.log('success');
     return true;
 };
 app.use(body_parser_1.default.json());

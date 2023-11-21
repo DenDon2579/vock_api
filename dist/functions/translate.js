@@ -35,18 +35,43 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var translate_1 = require("../functions/translate");
-var dictionaryRouter = (0, express_1.Router)();
-dictionaryRouter
-    .get('/', function (req, res) {
-    res.send('dictionary root');
-})
-    .get('/words', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.translate = void 0;
+var axios_1 = __importDefault(require("axios"));
+var translate = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var responce, translations_1;
     return __generator(this, function (_a) {
-        return [2 /*return*/];
+        switch (_a.label) {
+            case 0:
+                console.log(req.query.word);
+                if (!req.query.word) return [3 /*break*/, 2];
+                return [4 /*yield*/, axios_1.default
+                        .get("https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=dict.1.1.20231114T095349Z.e9533bbdd5907c47.5066f417c100bcd5afaa9c90593faf7f6a47428d&lang=en-ru&text=".concat(req.query.word))
+                        .then(function (res) { return res.data.def; })];
+            case 1:
+                responce = _a.sent();
+                translations_1 = [];
+                responce.forEach(function (posGroup) {
+                    return posGroup.tr.forEach(function (translation) {
+                        if (translation.fr >= 5) {
+                            translations_1.push({
+                                pos: posGroup.pos,
+                                text: translation.text,
+                                popularity: translation.fr,
+                            });
+                        }
+                    });
+                });
+                res.status(200).json(translations_1);
+                return [3 /*break*/, 3];
+            case 2:
+                res.status(404).send('Cant translate');
+                _a.label = 3;
+            case 3: return [2 /*return*/];
+        }
     });
-}); })
-    .get('/translate', translate_1.translate);
-exports.default = dictionaryRouter;
+}); };
+exports.translate = translate;

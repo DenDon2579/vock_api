@@ -16,7 +16,7 @@ mongoose.connect(
 const app = Express();
 
 const isAuthenticated = () => {
-  console.log('AUTHENTIFICATED !!! ALL IS OK URA URA URA GAY SEX Z ZOV ZOV');
+  console.log('success');
   return true;
 };
 
