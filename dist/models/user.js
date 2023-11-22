@@ -11,6 +11,7 @@ var userSchema = new mongoose_1.Schema({
     userName: { type: String, required: true },
     email: { type: String, required: true },
     dictionary: { type: Dictionary_1.default, required: true },
+    avatar: { type: String, required: true },
 });
 exports.User = (0, mongoose_1.model)('User', userSchema);
 //   englishWord: { type: String, required: true },

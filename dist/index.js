@@ -42,12 +42,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var body_parser_1 = __importDefault(require("body-parser"));
 var mongoose_1 = __importDefault(require("mongoose"));
-var User_1 = require("./models/User");
 var dictionary_1 = __importDefault(require("./routes/dictionary"));
 var learning_1 = __importDefault(require("./routes/learning"));
-var axios_1 = __importDefault(require("axios"));
 var validateToken_1 = __importDefault(require("./security/validateToken"));
 var cors_1 = __importDefault(require("cors"));
+var user_1 = __importDefault(require("./routes/user"));
 mongoose_1.default.connect('mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock');
 var app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
@@ -64,7 +63,12 @@ app.all('*', function (req, res, next) { return __awaiter(void 0, void 0, void 0
                 return [4 /*yield*/, userData.sub];
             case 2:
                 uid = _a.sent();
-                req.uid = uid;
+                req.userData = {
+                    uid: userData.sub,
+                    name: userData.name,
+                    avatar: userData.picture,
+                    email: userData.email,
+                };
                 if (uid) {
                     next();
                 }
@@ -81,39 +85,7 @@ app.all('*', function (req, res, next) { return __awaiter(void 0, void 0, void 0
 }); });
 app.use('/dictionary', dictionary_1.default);
 app.use('/learning', learning_1.default);
-app.get('/auth', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var responce, userData, isUserExist;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log(req.uid);
-                return [4 /*yield*/, axios_1.default.get('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: "Bearer ".concat(req.query.token) } })];
-            case 1:
-                responce = _a.sent();
-                return [4 /*yield*/, (0, validateToken_1.default)(req.query.token)];
-            case 2:
-                userData = _a.sent();
-                return [4 /*yield*/, User_1.User.findOne({ uid: userData === null || userData === void 0 ? void 0 : userData.sub })];
-            case 3:
-                isUserExist = _a.sent();
-                if (!!isUserExist) return [3 /*break*/, 5];
-                return [4 /*yield*/, User_1.User.create({
-                        uid: userData.sub,
-                        userName: userData.name,
-                        email: userData.email,
-                        dictionary: {
-                            words: [],
-                        },
-                    })];
-            case 4:
-                _a.sent();
-                _a.label = 5;
-            case 5:
-                res.sendStatus(200);
-                return [2 /*return*/];
-        }
-    });
-}); });
+app.use('/user', user_1.default);
 app.listen(3001);
 // uid: userData.sub,
 // userName: userData.name,

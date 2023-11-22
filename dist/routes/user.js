@@ -38,25 +38,47 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var User_1 = require("../models/User");
-var translate_1 = require("../functions/translate");
-var dictionaryRouter = (0, express_1.Router)();
-dictionaryRouter
-    .get('/', function (req, res) {
-    res.send('dictionary root');
-})
-    .get('/words', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var words;
+var userRouter = (0, express_1.Router)();
+userRouter
+    .get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        res.status(200).json(req.userData);
+        return [2 /*return*/];
+    });
+}); })
+    .get('/auth', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userData, isUserExist;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, User_1.User.findOne({
-                    uid: req.userData.uid,
-                }).select('dictionary.words')];
+            case 0:
+                userData = req.userData;
+                return [4 /*yield*/, User_1.User.findOne({ uid: userData === null || userData === void 0 ? void 0 : userData.uid })];
             case 1:
-                words = _a.sent();
-                res.status(200).json(words === null || words === void 0 ? void 0 : words.dictionary.words);
+                isUserExist = _a.sent();
+                if (!!isUserExist) return [3 /*break*/, 3];
+                return [4 /*yield*/, User_1.User.create({
+                        uid: userData.uid,
+                        userName: userData.name,
+                        email: userData.email,
+                        avatar: userData.avatar,
+                        dictionary: {
+                            words: [
+                                {
+                                    englishWord: 'hello',
+                                    type: 'common',
+                                    progress: 56,
+                                    translations: [{ pos: 'noun', popularity: 5, text: 'привет' }],
+                                },
+                            ],
+                        },
+                    })];
+            case 2:
+                _a.sent();
+                _a.label = 3;
+            case 3:
+                res.sendStatus(200);
                 return [2 /*return*/];
         }
     });
-}); })
-    .get('/translate', translate_1.translate);
-exports.default = dictionaryRouter;
+}); });
+exports.default = userRouter;
