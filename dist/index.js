@@ -56,10 +56,11 @@ app.all('*', function (req, res, next) { return __awaiter(void 0, void 0, void 0
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!req.headers.authorization) return [3 /*break*/, 3];
+                if (!req.headers.authorization) return [3 /*break*/, 5];
                 return [4 /*yield*/, (0, validateToken_1.default)(req.headers.authorization)];
             case 1:
                 userData = _a.sent();
+                if (!userData) return [3 /*break*/, 3];
                 return [4 /*yield*/, userData.sub];
             case 2:
                 uid = _a.sent();
@@ -79,7 +80,11 @@ app.all('*', function (req, res, next) { return __awaiter(void 0, void 0, void 0
             case 3:
                 res.sendStatus(401);
                 _a.label = 4;
-            case 4: return [2 /*return*/];
+            case 4: return [3 /*break*/, 6];
+            case 5:
+                res.sendStatus(401);
+                _a.label = 6;
+            case 6: return [2 /*return*/];
         }
     });
 }); });
@@ -87,29 +92,3 @@ app.use('/dictionary', dictionary_1.default);
 app.use('/learning', learning_1.default);
 app.use('/user', user_1.default);
 app.listen(3001);
-// uid: userData.sub,
-// userName: userData.name,
-// email: userData.email,
-// dictionary: {
-//   words: [
-//     {
-//       englishWord: 'hello',
-//       type: 'notLearning',
-//       translations: [
-//         {
-//           pos: 'noun',
-//           words: [
-//             { text: 'привет', popularity: 10 },
-//             { text: 'хай', popularity: 5 },
-//           ],
-//         },
-//         {
-//           pos: 'verb',
-//           words: [{ text: 'поздороваться', popularity: 10 }],
-//         },
-//       ],
-//       progress: 46,
-//     },
-//   ],
-// },
-// }

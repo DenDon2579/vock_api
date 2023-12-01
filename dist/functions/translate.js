@@ -65,10 +65,16 @@ var translate = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                         }
                     });
                 });
-                res.status(200).json(translations_1);
+                translations_1.sort(function (a, b) { return b.popularity - a.popularity; });
+                if (translations_1.length > 0) {
+                    res.status(200).json(translations_1);
+                }
+                else {
+                    res.status(404).send('No translation');
+                }
                 return [3 /*break*/, 3];
             case 2:
-                res.status(404).send('Cant translate');
+                res.status(404).send('No word entered');
                 _a.label = 3;
             case 3: return [2 /*return*/];
         }

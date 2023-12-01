@@ -23,8 +23,13 @@ export const translate = async (req: any, res: any) => {
         }
       })
     );
-    res.status(200).json(translations);
+    translations.sort((a, b) => b.popularity - a.popularity);
+    if (translations.length > 0) {
+      res.status(200).json(translations);
+    } else {
+      res.status(404).send('No translation');
+    }
   } else {
-    res.status(404).send('Cant translate');
+    res.status(404).send('No word entered');
   }
 };

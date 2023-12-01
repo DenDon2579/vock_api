@@ -58,5 +58,19 @@ dictionaryRouter
         }
     });
 }); })
-    .get('/translate', translate_1.translate);
+    .get('/translate', translate_1.translate)
+    .post('/words', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, User_1.User.updateOne({
+                    uid: req.userData.uid,
+                }, { $push: { 'dictionary.words': req.body } })];
+            case 1:
+                user = _a.sent();
+                res.status(201).json({});
+                return [2 /*return*/];
+        }
+    });
+}); });
 exports.default = dictionaryRouter;

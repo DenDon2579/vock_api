@@ -18,18 +18,23 @@ const app = Express();
 
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
+
 app.all('*', async (req: any, res, next) => {
   if (req.headers.authorization) {
     const userData: any = await validateToken(req.headers.authorization);
-    const uid = await userData.sub;
-    req.userData = {
-      uid: userData.sub,
-      name: userData.name,
-      avatar: userData.picture,
-      email: userData.email,
-    };
-    if (uid) {
-      next();
+    if (userData) {
+      const uid = await userData.sub;
+      req.userData = {
+        uid: userData.sub,
+        name: userData.name,
+        avatar: userData.picture,
+        email: userData.email,
+      };
+      if (uid) {
+        next();
+      } else {
+        res.sendStatus(401);
+      }
     } else {
       res.sendStatus(401);
     }
@@ -43,30 +48,3 @@ app.use('/learning', learningRouter);
 app.use('/user', userRouter);
 
 app.listen(3001);
-
-// uid: userData.sub,
-// userName: userData.name,
-// email: userData.email,
-// dictionary: {
-//   words: [
-//     {
-//       englishWord: 'hello',
-//       type: 'notLearning',
-//       translations: [
-//         {
-//           pos: 'noun',
-//           words: [
-//             { text: 'привет', popularity: 10 },
-//             { text: 'хай', popularity: 5 },
-//           ],
-//         },
-//         {
-//           pos: 'verb',
-//           words: [{ text: 'поздороваться', popularity: 10 }],
-//         },
-//       ],
-//       progress: 46,
-//     },
-//   ],
-// },
-// }

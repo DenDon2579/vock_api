@@ -7,7 +7,7 @@ userRouter
   .get('/', async (req: any, res) => {
     res.status(200).json(req.userData);
   })
-  .get('/auth', async (req: any, res) => {
+  .head('/auth', async (req: any, res) => {
     const userData: any = req.userData;
     const isUserExist = await User.findOne({ uid: userData?.uid });
 
@@ -18,14 +18,7 @@ userRouter
         email: userData.email,
         avatar: userData.avatar,
         dictionary: {
-          words: [
-            {
-              englishWord: 'hello',
-              type: 'common',
-              progress: 56,
-              translations: [{ pos: 'noun', popularity: 5, text: 'привет' }],
-            },
-          ],
+          words: [],
         },
       });
     }

@@ -17,6 +17,15 @@ dictionaryRouter
 
     res.status(200).json(words?.dictionary.words);
   })
-  .get('/translate', translate);
+  .get('/translate', translate)
+  .post('/words', async (req: any, res) => {
+    const user = await User.updateOne(
+      {
+        uid: req.userData.uid,
+      },
+      { $push: { 'dictionary.words': req.body } }
+    );
+    res.status(201).json({});
+  });
 
 export default dictionaryRouter;

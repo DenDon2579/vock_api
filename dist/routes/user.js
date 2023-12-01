@@ -46,7 +46,7 @@ userRouter
         return [2 /*return*/];
     });
 }); })
-    .get('/auth', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    .head('/auth', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var userData, isUserExist;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -62,14 +62,7 @@ userRouter
                         email: userData.email,
                         avatar: userData.avatar,
                         dictionary: {
-                            words: [
-                                {
-                                    englishWord: 'hello',
-                                    type: 'common',
-                                    progress: 56,
-                                    translations: [{ pos: 'noun', popularity: 5, text: 'привет' }],
-                                },
-                            ],
+                            words: [],
                         },
                     })];
             case 2:

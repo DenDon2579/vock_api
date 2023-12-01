@@ -41,16 +41,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __importDefault(require("axios"));
 exports.default = (function (accessToken) { return __awaiter(void 0, void 0, void 0, function () {
-    var responce, userData;
+    var responce, userData, e_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, axios_1.default.get('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: "Bearer ".concat(accessToken) } })];
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, axios_1.default.get('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: "Bearer ".concat(accessToken) } })];
             case 1:
                 responce = _a.sent();
                 return [4 /*yield*/, responce.data];
             case 2:
                 userData = _a.sent();
                 return [2 /*return*/, userData];
+            case 3:
+                e_1 = _a.sent();
+                return [2 /*return*/, null];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
