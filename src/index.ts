@@ -9,6 +9,7 @@ import axios from 'axios';
 import validateToken from './security/validateToken';
 import cors from 'cors';
 import userRouter from './routes/user';
+import { DefaultRequest } from './types';
 
 mongoose.connect(
   'mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock'
@@ -19,7 +20,7 @@ const app = Express();
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
 
-app.all('*', async (req: any, res, next) => {
+app.all('*', async (req: DefaultRequest, res, next) => {
   if (req.headers.authorization) {
     const userData: any = await validateToken(req.headers.authorization);
     if (userData) {

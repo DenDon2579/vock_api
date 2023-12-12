@@ -1,3 +1,5 @@
+import { Request } from 'express';
+
 export interface IYandexDictTranslation {
   text: string;
   pos: string;
@@ -17,4 +19,15 @@ export interface ITranslation {
   pos: string;
   text: string;
   popularity: number;
+}
+
+export interface IUser {
+  uid: string;
+  name: string;
+  avatar: string;
+  email: string;
+}
+
+export interface DefaultRequest extends Request {
+  userData?: IUser;
 }

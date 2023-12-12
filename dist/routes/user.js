@@ -55,7 +55,7 @@ userRouter
                 return [4 /*yield*/, User_1.User.findOne({ uid: userData === null || userData === void 0 ? void 0 : userData.uid })];
             case 1:
                 isUserExist = _a.sent();
-                if (!!isUserExist) return [3 /*break*/, 3];
+                if (!(!isUserExist && userData)) return [3 /*break*/, 3];
                 return [4 /*yield*/, User_1.User.create({
                         uid: userData.uid,
                         userName: userData.name,
@@ -64,6 +64,7 @@ userRouter
                         dictionary: {
                             words: [],
                         },
+                        lastResults: [],
                     })];
             case 2:
                 _a.sent();

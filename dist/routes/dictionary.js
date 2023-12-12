@@ -46,13 +46,14 @@ dictionaryRouter
 })
     .get('/words', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var words;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0: return [4 /*yield*/, User_1.User.findOne({
-                    uid: req.userData.uid,
+                    uid: (_a = req.userData) === null || _a === void 0 ? void 0 : _a.uid,
                 }).select('dictionary.words')];
             case 1:
-                words = _a.sent();
+                words = _b.sent();
                 res.status(200).json(words === null || words === void 0 ? void 0 : words.dictionary.words);
                 return [2 /*return*/];
         }
@@ -61,13 +62,14 @@ dictionaryRouter
     .get('/translate', translate_1.translate)
     .post('/words', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+    var _a;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
             case 0: return [4 /*yield*/, User_1.User.updateOne({
-                    uid: req.userData.uid,
+                    uid: (_a = req.userData) === null || _a === void 0 ? void 0 : _a.uid,
                 }, { $push: { 'dictionary.words': req.body } })];
             case 1:
-                user = _a.sent();
+                user = _b.sent();
                 res.status(201).json({});
                 return [2 /*return*/];
         }

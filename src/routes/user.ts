@@ -1,17 +1,18 @@
 import { Router } from 'express';
 import { User } from '../models/User';
+import { DefaultRequest } from '../types';
 
 const userRouter = Router();
 
 userRouter
-  .get('/', async (req: any, res) => {
+  .get('/', async (req: DefaultRequest, res) => {
     res.status(200).json(req.userData);
   })
-  .head('/auth', async (req: any, res) => {
-    const userData: any = req.userData;
+  .head('/auth', async (req: DefaultRequest, res) => {
+    const userData = req.userData;
     const isUserExist = await User.findOne({ uid: userData?.uid });
 
-    if (!isUserExist) {
+    if (!isUserExist && userData) {
       await User.create({
         uid: userData.uid,
         userName: userData.name,
@@ -20,6 +21,7 @@ userRouter
         dictionary: {
           words: [],
         },
+        lastResults: [],
       });
     }
     res.sendStatus(200);
