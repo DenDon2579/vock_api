@@ -4,6 +4,7 @@ import { User } from '../models/User';
 import { translate } from '../functions/translate';
 import Word from '../models/Word';
 import { DefaultRequest } from '../types';
+import { DateTime } from 'luxon';
 
 const dictionaryRouter = Router();
 
@@ -24,7 +25,11 @@ dictionaryRouter
       {
         uid: req.userData?.uid,
       },
-      { $push: { 'dictionary.words': req.body } }
+      {
+        $push: {
+          'dictionary.words': { ...req.body, lastTestTime: DateTime.now() },
+        },
+      }
     );
     res.status(201).json({});
   });

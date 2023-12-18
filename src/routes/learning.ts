@@ -3,9 +3,7 @@ import { Router } from 'express';
 const learningRouter = Router();
 
 learningRouter
-  .get('/buildTest', (req, res) => {
-    res.send('build test');
-  })
+  .get('/buildTest', (req, res) => {})
   .get('/startTest', (req, res) => {
     res.send('start test');
   })

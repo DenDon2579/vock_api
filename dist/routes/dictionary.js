@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -39,6 +50,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = require("express");
 var User_1 = require("../models/User");
 var translate_1 = require("../functions/translate");
+var luxon_1 = require("luxon");
 var dictionaryRouter = (0, express_1.Router)();
 dictionaryRouter
     .get('/', function (req, res) {
@@ -67,7 +79,11 @@ dictionaryRouter
         switch (_b.label) {
             case 0: return [4 /*yield*/, User_1.User.updateOne({
                     uid: (_a = req.userData) === null || _a === void 0 ? void 0 : _a.uid,
-                }, { $push: { 'dictionary.words': req.body } })];
+                }, {
+                    $push: {
+                        'dictionary.words': __assign(__assign({}, req.body), { lastTestTime: luxon_1.DateTime.now() }),
+                    },
+                })];
             case 1:
                 user = _b.sent();
                 res.status(201).json({});

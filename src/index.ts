@@ -10,6 +10,11 @@ import validateToken from './security/validateToken';
 import cors from 'cors';
 import userRouter from './routes/user';
 import { DefaultRequest } from './types';
+import { DateTime } from 'luxon';
+
+const a = DateTime.now();
+console.log(a);
+console.log(a.plus({ days: 4 }));
 
 mongoose.connect(
   'mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock'
@@ -19,6 +24,8 @@ const app = Express();
 
 app.use(bodyParser.json());
 app.use(cors({ origin: true }));
+
+app.get('/', async (req, res) => {});
 
 app.all('*', async (req: DefaultRequest, res, next) => {
   if (req.headers.authorization) {

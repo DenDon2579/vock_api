@@ -7,7 +7,8 @@ var mongoose_1 = require("mongoose");
 var WordInTest_1 = __importDefault(require("./WordInTest"));
 exports.default = new mongoose_1.Schema({
     words: { type: [WordInTest_1.default], required: true },
-    inFinished: { type: Boolean, required: true, default: false },
+    stage: { type: Number, reqired: true },
+    isFinished: { type: Boolean, required: true, default: false },
     startTime: { type: Date, required: true },
     endTime: { type: Date },
 });

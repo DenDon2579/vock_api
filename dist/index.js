@@ -47,10 +47,17 @@ var learning_1 = __importDefault(require("./routes/learning"));
 var validateToken_1 = __importDefault(require("./security/validateToken"));
 var cors_1 = __importDefault(require("cors"));
 var user_1 = __importDefault(require("./routes/user"));
+var luxon_1 = require("luxon");
+var a = luxon_1.DateTime.now();
+console.log(a);
+console.log(a.plus({ days: 4 }));
 mongoose_1.default.connect('mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock');
 var app = (0, express_1.default)();
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)({ origin: true }));
+app.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/];
+}); }); });
 app.all('*', function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
     var userData, uid;
     return __generator(this, function (_a) {

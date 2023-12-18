@@ -12,4 +12,5 @@ exports.default = new mongoose_1.Schema({
     translations: { type: [Translation_1.default], required: true },
     progress: { type: Number, required: true, default: 0 },
     lastResults: { type: [TestResult_1.default], required: true, default: [] },
+    lastTestTime: { type: Date, required: true },
 });

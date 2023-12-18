@@ -8,4 +8,5 @@ export default new Schema({
   translations: { type: [Translation], required: true },
   progress: { type: Number, required: true, default: 0 },
   lastResults: { type: [TestResult], required: true, default: [] },
+  lastTestTime: { type: Date, required: true },
 });
