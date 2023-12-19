@@ -11,10 +11,9 @@ import cors from 'cors';
 import userRouter from './routes/user';
 import { DefaultRequest } from './types';
 import { DateTime } from 'luxon';
+import calcDayDelta from './functions/calcDayDelta';
 
-const a = DateTime.now();
-console.log(a);
-console.log(a.plus({ days: 4 }));
+console.log(calcDayDelta(DateTime.fromISO('2023-12-15')));
 
 mongoose.connect(
   'mongodb+srv://DenDon:1qGku4t32qmBkIHS@cluster.vvicvll.mongodb.net/vock'

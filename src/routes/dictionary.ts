@@ -27,7 +27,10 @@ dictionaryRouter
       },
       {
         $push: {
-          'dictionary.words': { ...req.body, lastTestTime: DateTime.now() },
+          'dictionary.words': {
+            ...req.body,
+            lastTestTime: DateTime.now().toISODate(),
+          },
         },
       }
     );

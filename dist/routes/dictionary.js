@@ -81,7 +81,7 @@ dictionaryRouter
                     uid: (_a = req.userData) === null || _a === void 0 ? void 0 : _a.uid,
                 }, {
                     $push: {
-                        'dictionary.words': __assign(__assign({}, req.body), { lastTestTime: luxon_1.DateTime.now() }),
+                        'dictionary.words': __assign(__assign({}, req.body), { lastTestTime: luxon_1.DateTime.now().toISODate() }),
                     },
                 })];
             case 1:
